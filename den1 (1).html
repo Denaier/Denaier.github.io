@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Architects+Daughter&family=Contrail+One&family=Modak&family=MuseoModerno:wght@100&family=Permanent+Marker&family=Rye&display=swap" rel="stylesheet">
+
+  <title>Denaier Malik</title>
+  <style>
+    body {
+      text-align: center;
+      background: url("https://media.istockphoto.com/id/1421762336/photo/yellow-alarm-clock-on-the-wooden-table.jpg?b=1&s=612x612&w=0&k=20&c=STsyDbNW_BO2zs9JguM6M3jRIQlQIRgXOZmj1mvZNQ4=");
+      background-size: cover;
+      background-position: center;
+      color: Yellow;
+      
+    }
+    p {
+      font-size: 30px;
+      font-family: 'Rye', cursive;
+    }
+    input {
+      border: 0;
+      padding: 10px;
+      font-size: 20px;
+      font-family: 'Architects Daughter', cursive;
+    }
+    input[type="submit"] {
+      background: Yellow;
+      color: blue;
+      font-family: 'Permanent Marker', cursive;
+    }
+    img {
+      width: 250px;
+      
+      }
+  </style>
+</head>
+<body>
+  <img src="https://www.dictionary.com/e/wp-content/uploads/2018/03/Thinking_Face_Emoji-Emoji-Island.png">
+  <p>
+  What has a face and two hands but no arms or legs?</p>
+  <input id="Name" placeholder="name">
+  <input id="Email" type="email" placeholder="email">
+  <input id="submit" type="submit">
+  
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+	import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+	
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAOhP-wH0gm5ztkUsKcyPHwryVRtmO7CnU",
+      authDomain: "den1-1a955.firebaseapp.com",
+      projectId: "den1-1a955",
+      storageBucket: "den1-1a955.appspot.com",
+      messagingSenderId: "1062376854665",
+      appId: "1:1062376854665:web:cf4a83477f76cf5b95a258"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app);
+    const Name = document.querySelector("#Name") 
+	const Email = document.querySelector("#Email")
+	document.querySelector('#submit').addEventListener('click', Submit)
+
+	function Submit() {
+	  const timestamp = buildTimestamp()
+	  
+	  set(ref(db, timestamp), {
+		  Name: Name.value,
+	      email: Email.value,
+	  });
+
+	  Name.value = ""
+	  Email.value = ""
+	}
+	function buildTimestamp() {
+	  const now = new Date();
+	  let timestamp = now.getFullYear().toString() + "/";
+	  //const month = now.toLocaleString('default', { month: 'long' });
+
+	  let month = now.getMonth()+1   //add 1 because Javascript uses 0 for January
+	  month = month.toString()
+	  month = addLeadingZero(month)
+	  timestamp += month + "/"; 
+
+	  let date = now.getDate().toString()
+	  date = addLeadingZero(date)
+	  timestamp += date + "/";
+
+	  let hours = now.getHours().toString()
+	  hours = addLeadingZero(hours)
+	  timestamp += hours + ":";
+
+	  let minutes = now.getMinutes().toString()
+	  minutes = addLeadingZero(minutes)
+	  timestamp += minutes + ":";
+
+	  let seconds = now.getSeconds().toString()
+	  seconds = addLeadingZero(seconds)
+	  timestamp += seconds;
+  
+	  return timestamp
+	}
+	
+	function addLeadingZero(units) {
+		if (units.length < 2) {
+			units = "0" + units
+		}
+		return units
+	}
+
+  </script>
+</body>
