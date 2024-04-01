@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Architects Daughter', cursive;
+  margin: 0 auto;
+  max-width: 600px;
+  background: #729;
+}
+div {
+  height: 250px;
+  background-size: cover;
+  position: relative;
+  margin: 40px 0 0 0;
+  border-radius: 12px;
+}
+h1 {
+  font-family: 'Permanent Marker', cursive;
+  text-align: center;
+  font-size: 100px;
+  color: #097;
+  margin: 60px 0 0 0;
+}
+h2 {
+  text-align: center;
+  color: #093;
+  margin: 0px 0 70px 0;
+  font-family: 'Limelight', sans-serif;
+}
+p {
+  color: rgba(20,255,200,1);
+  background: purple;
+  background: linear-gradient(bottom, rgba(150,0,100,1), rgba(90,25,100,.4));
+  background: -webkit-linear-gradient(bottom, rgba(130,25,100,1), rgba(30,0,50,.4));
+  background: -moz-linear-gradient(bottom, rgba(90,0,100,1), rgba(0,0,0,.4));
+  padding: 10px;
+  line-height: 28px;
+  text-align: justify;
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  height: 30px;
+  transition: height .5s;
+  -webkit-transition: height .5s;
+  -moz-transition: height .5s;
+}
+
+small {
+  opacity: 0;
+}
+
+.show-description p {
+  height: 150px;
+}
+
+.show-description small {
+  opacity: 1;
+}
+
+.first{
+  background-image: url("https://ichef.bbci.co.uk/news/976/cpsprodpb/16B90/production/_107427039_gettyimages-636475496.jpg");
+}
+.second{
+  background-image: url("https://marketplace.canva.com/EAFllsiXRlg/1/0/1600w/canva-brown-cute-cat-collage-desktop-wallpaper-ZRi2WSWQr8E.jpg");
+}
+.dessert{
+  background-image: url("https://files.123freevectors.com/wp-content/original/505060-cute-birds-valentines-day-greetings-white-background.jpg");
+}
+.price {
+  float: right;
+}
+@media (max-width: 500px) {
+  h1 {
+    font-size: 50px;
+    margin-top: 20px;
+    line-height: 40px;
+  }
+  h2 {
+    font-size: 20px;
+    margin: 20px 0 30px 0;
+  }
+  div {
+    margin: 20px 12px 0 12px;
+  }
+  p {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  small {
+    font-size: 16px;
+  }
+}
+input {
+	font-size: 22px;
+}
+
+</style>
+
+</head>
+
+<body>
+<h1>Pet store</h1>
+<h2>Buy, sell, and trade your pet</h2>
+<div class="first">
+	<input class="quantities" type="number" min="0" style="width: 50px">
+  <p>Dogs <span class="price">$50</span><br />
+  <small>Who doesnt love dogs, theyre so cute and cuddly and energetic why WOULDNT you want to buy, sell, or trade in your dog for a new one. </small></p>
+</div>
+
+<div class="second">
+	<input class="quantities" type="number" min="0" style="width: 50px">
+  <p>Cats <span class="price">$55</span><br />
+  <small>Do you love cats?! If so this is definetly the right section for you. Whether youre looking to buy, sell, or trade your cat in for a new one.</small></p>
+</div>
+  
+<div class="dessert">
+	<input class="quantities" type="number" min="0" style="width: 50px">
+  <p>Birds <span class="price">$25</span><br />
+  <small>Birds are so amazing, they fly around and poop everywhere, why wouldnt you want to buy, sell, or trade your bird in for a new one.</small></p>
+</div>
+
+<br><br>
+<input id="Name" placeholder="name">
+  <input id="Email" type="email" placeholder="email">
+  <input id="submit" type="submit">
+<br><br>  
+  
+<script>
+  $('div').on('click', function() {
+      $(this).toggleClass('show-description');
+  });
+</script>
+
+</body>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCmLFvAMKFounc6gZJcnnDYYSLUx5z5_00",
+    authDomain: "denaier-back-end-3.firebaseapp.com",
+    projectId: "denaier-back-end-3",
+    storageBucket: "denaier-back-end-3.appspot.com",
+    messagingSenderId: "668296835735",
+    appId: "1:668296835735:web:3eb311a59f0ee0ae3befd2"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+const Name = document.querySelector("#Name") 
+	const Email = document.querySelector("#Email")
+	document.querySelector('#submit').addEventListener('click', Submit)
+  const quantities = document.querySelectorAll(".quantities")
+  const itemsList = ["Dogs", "Cats", "Birds"]
+  const prices = document.querySelectorAll(".price")
+  
+
+	function Submit() {
+	  const timestamp = buildTimestamp()
+	  let total = 0
+	  let cart = { }
+	  
+  	  for  (let i=0; i<quantities.length; i=i+1) {
+  	  	if (quantities[i].value != "0" && quantities[i].value != "") {	
+			  let price = prices[i].innerHTML.replace('$', '')
+			  total = total + quantities[i].value * price 
+
+  	  		cart[itemsList[i]] = parseInt(quantities[i].value) 
+  	  	}
+  	  	quantities[i].value = ""
+  	  }
+		
+	  
+	  set(ref(db, timestamp), {
+		  Name: Name.value,
+	      email: Email.value,
+		  cart: cart,
+		  totalPrice: total,
+		  paid: "not yet",
+		  
+		  
+	  });
+
+	  Name.value = ""
+	  Email.value = ""
+	}
+	function buildTimestamp() {
+	  const now = new Date();
+	  let timestamp = now.getFullYear().toString() + "/";
+	  //const month = now.toLocaleString('default', { month: 'long' });
+
+	  let month = now.getMonth()+1   //add 1 because Javascript uses 0 for January
+	  month = month.toString()
+	  month = addLeadingZero(month)
+	  timestamp += month + "/"; 
+
+	  let date = now.getDate().toString()
+	  date = addLeadingZero(date)
+	  timestamp += date + "/";
+
+	  let hours = now.getHours().toString()
+	  hours = addLeadingZero(hours)
+	  timestamp += hours + ":";
+
+	  let minutes = now.getMinutes().toString()
+	  minutes = addLeadingZero(minutes)
+	  timestamp += minutes + ":";
+
+	  let seconds = now.getSeconds().toString()
+	  seconds = addLeadingZero(seconds)
+	  timestamp += seconds;
+  
+	  return timestamp
+	}
+	
+	function addLeadingZero(units) {
+		if (units.length < 2) {
+			units = "0" + units
+		}
+		return units
+	}
+</script>
